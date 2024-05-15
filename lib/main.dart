@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,96 +14,79 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _width = 400.0;
-  var _height = 200.0;
-  bool flag = false;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Widgets"),
-          backgroundColor: Colors.blue[400],
-          leading: Icon(Icons.menu),
-          actions: [
-            IconButton(onPressed: () => {}, icon: Icon(Icons.search)),
-            IconButton(onPressed: () => {}, icon: Icon(Icons.more_vert)),
-          ],
-        ),
-        body: Column(
-          children: [
-            ExpansionTile(
-              title: const Text('Expansion Tile'),
-              children: [
-                Container(
-                  padding: EdgeInsets.all(30),
-                  color: Colors.amber,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'This is an Expansion Tile',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              child: AnimatedContainer(
-                width: _width,
-                height: _height,
-                duration: Duration(seconds: 2),
-                child: Container(
-                  padding: EdgeInsets.all(30),
-                  color: Colors.green[400],
-                  alignment: Alignment.center,
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://cdn.pixabay.com/photo/2020/10/23/17/52/fox-5679446_960_720.png'),
-                    radius: 80,
-                    child: Text("Hello"),
-                  ),
-                ),
-              ),
-            ),
-            ElevatedButton(onPressed: () {
-              setState(() {
-                if(flag)
-                {
-                  _width = 400.0;
-                  _height = 200.0;
-                   flag = false;
-                }
-                else{
-                  _width = 200.0;
-                  _height = 200.0;
-                  flag = true; 
-                }
+    return MaterialApp(debugShowCheckedModeBanner: false, home: _MyHomePage());
+  }
+}
 
-              });
-            }, child: Text('Animation')),
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                // padding: EdgeInsets.all(30),
-                color: Colors.blue[200],
-                child: Text("Expanded", style: TextStyle(fontSize: 20)),
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(
-                alignment: Alignment.center,
-                // padding: EdgeInsets.all(30),
-                color: Colors.blueGrey,
-                child: Text(
-                  "Flexible",
-                   style: TextStyle(fontSize: 20)
-                ),
-              ),
-            )
-          ],
+class _MyHomePage extends StatefulWidget {
+  const _MyHomePage({super.key});
+
+  @override
+  State<_MyHomePage> createState() => __MyHomePageState();
+}
+
+class __MyHomePageState extends State<_MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Widgets"),
+        backgroundColor: Colors.blue[100],
+        leading: Icon(Icons.menu),
+        actions: [
+          IconButton(onPressed: () => {}, icon: Icon(Icons.search)),
+          IconButton(onPressed: () => {}, icon: Icon(Icons.more_vert)),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: GridView.count(
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: List.generate(10, (i) {
+            return GestureDetector(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 5.0,
+                            sigmaY: 5.0,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: ColoredBox(
+                                    color: Colors.blue,
+                                    child: Image.network(
+                                        'https://picsum.photos/id/${i}/200/200'),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              },
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child:
+                      Image.network('https://picsum.photos/id/${i}/200/200')),
+            );
+          }),
         ),
       ),
     );
