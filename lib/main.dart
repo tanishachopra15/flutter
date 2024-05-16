@@ -27,12 +27,13 @@ class _MyHomePage extends StatefulWidget {
 }
 
 class __MyHomePageState extends State<_MyHomePage> {
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Grid"),
+        title: Text("Grid View"),
         backgroundColor: Colors.blue[100],
         leading: Icon(Icons.menu),
         actions: [
@@ -41,52 +42,42 @@ class __MyHomePageState extends State<_MyHomePage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: GridView.count(
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          crossAxisCount: 2,
-          children: List.generate(10, (i) {
-            return GestureDetector(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: BackdropFilter(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 8.0,
+            ),
+            itemBuilder: (BuildContext context, index) {
+              return GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BackdropFilter(
                           filter: ImageFilter.blur(
                             sigmaX: 5.0,
                             sigmaY: 5.0,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: ColoredBox(
-                                    color: Colors.blue,
-                                    child: Image.network(
-                                        'https://picsum.photos/id/${i}/200/200'),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                    'https://picsum.photos/id/${index}/200/300')),
                           ),
-                        ),
-                      );
-                    });
-              },
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child:
-                      Image.network('https://picsum.photos/id/${i}/200/200')),
-            );
-          }),
-        ),
+                        );
+                      });
+                },
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                        'https://picsum.photos/id/${index}/200/300')),
+              );
+            }),
       ),
     );
   }
