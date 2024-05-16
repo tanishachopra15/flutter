@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +32,7 @@ class __MyHomePageState extends State<_MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Widgets"),
+        title: Text("Grid"),
         backgroundColor: Colors.blue[100],
         leading: Icon(Icons.menu),
         actions: [
