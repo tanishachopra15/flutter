@@ -49,6 +49,7 @@ class __MyHomePageState extends State<_MyHomePage> {
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
             ),
+            itemCount: 20,
             itemBuilder: (BuildContext context, index) {
               return GestureDetector(
                 onTap: () {
