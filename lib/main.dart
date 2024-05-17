@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -51,35 +50,46 @@ class __MyHomePageState extends State<_MyHomePage> {
             ),
             itemCount: 20,
             itemBuilder: (BuildContext context, index) {
-              return GestureDetector(
+              return InkWell(
                 onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaX: 5.0,
-                            sigmaY: 5.0,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                    'https://picsum.photos/id/${index}/200/300')),
-                          ),
-                        );
-                      });
+                  Navigator.push(context,MaterialPageRoute(builder: ((context) => HeroAnimation(index: index,))));
                 },
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                        'https://picsum.photos/id/${index}/200/300')),
+                child: Hero(
+                  tag: 'photo$index',
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                          'https://picsum.photos/id/$index/200/300')),
+                ),
               );
             }),
       ),
     );
   }
 }
+
+class HeroAnimation extends StatelessWidget {
+  final index ;
+  const HeroAnimation({super.key , required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: InkWell(
+        onTap: () {
+                Navigator.pop(context);
+              },
+        child: Container(
+          child: Center(
+            child: Hero(
+                  tag: 'photo$index',
+                  child: Image.network('https://picsum.photos/id/$index/200/300'),
+                ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
